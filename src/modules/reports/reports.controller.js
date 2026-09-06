@@ -96,6 +96,11 @@ const updateReport = async (req, res) => {
   const { id } = req.params;
   const tenantId = req.user.tenantId;
   const { status } = req.body;
+
+  if (req.user.role === 'viewer') {
+    return res.status(403).json({ error: "Viewers cannot update report status" });
+  }
+
   if (!status) {
     return res.status(400).json({ error: "Missing field" });
   }
